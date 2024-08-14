@@ -1,8 +1,8 @@
 version: 2.0
 
-id: action-composite-template
+id: actions-release
 
 about:
-  title: Template GitHub Composite Actions
-  description: A template for GitHub Template GitHub Composite Actions
-  repository: khulnasoft/action-composite-template
+  title: Actions Release
+  description: This Action able to get latest release version (tag) of the remote repository.
+  repository: khulnasoft-lab/actions-release
