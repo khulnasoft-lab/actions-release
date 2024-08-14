@@ -1,9 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-if [[ $GITHUB_EVENT_NAME != "push" && $GITHUB_EVENT_NAME != "pull_request" ]]; then
-  echo "::warning title=action-name::action ran on unsupported event ${GITHUB_EVENT_NAME}"
-  exit 0
+if [ ! -z "${INPUT_WORKDIR}" ]; then
+    cd "${INPUT_WORKDIR}"
 fi
 
-echo "bar=baz" >> "${GITHUB_OUTPUT}"
-
+gh release create -t "${INPUT_TITLE}" "$(date +%Y%m%d%H%M%S)" --generate-notes
