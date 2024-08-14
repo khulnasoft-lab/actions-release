@@ -1,48 +1,44 @@
 ## Usage
 
-```
+```yaml
+name: Publish Release
 on:
   push:
-    branches: [ master ]
-
+    tags:
+      - 'v*'
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-
-    - name: Get latest release of NodeJS
+    - uses: actions/checkout@v3
+    - name: Create a Release
       uses: khulnasoft-lab/actions-release@master
-      id: node_release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        repository: "nodejs/node"
-        type: "stable"
-
-    - name: Build image
-      uses: docker/build-push-action@v1
-        with:
-          ...
-          dockerfile: Dockerfile
-          tags: latest, ${{ steps.node_release.outputs.release }}
+        title: MyReleaseMessage
 ```
 
-### Inputs
+## Mandatory Arguments
 
-Name | Description | Example
---- | --- | ---
-repository | The Github owner/repository | `nodejs/node`
-type | The release type (prerelease | stable | latest | nodraft) | `stable`
-token | Github auth token (default variable for each action session) | `${{ secrets.GITHUB_TOKEN }}`
+### title
+`title` is a message which should appear in the release. May contain spaces.
 
-#### Possible values for `type` input
-* *stable* - Get the stable `latest` release
-* *prerelease* - Get the latest `prerelease`
-* *latest* - Get the *really* latest release with no matter is it stable or prerelease
-* *nodraft* - Get the *really* latest release excluding drafts
+## Optional Arguments
 
-### Outputs
-Action outputs 3 variables
-- `release` - release tag
-- `release_id` - release Github ID
-- `browser_download_url` - URL to download first file in release assets
+### workdir
+`workdir` can be used to specify a directory that contains the repository to be published. 
+
+## Notes
+
+`${{ secrets.GITHUB_TOKEN }}` can be used for publishing, if you configure the correct permissions.
+
+This can be done by giving the Github token _all_ permissions (referred to as "Read and write permission") with the setting below available in Settings > Actions > General  
+
+OR alternatively it can be achieved via adding
+
+```yaml
+permissions:
+  packages: write
+  contents: write
+```
