@@ -1,20 +1,29 @@
-name: A Composite action
-description: GitHub Composite Action Template
+name: 'Release Action'
+description: 'Get the latest release from another repository and output that for use in other actions'
+author: "khulnasoft-lab"
 
 branding:
-  icon: plus
-  color: green
+  icon: 'anchor'
+  color: 'orange'
 
 inputs:
-  foo:
-    description: foo
+  token:
+    description: 'GitHub Access token'
     required: false
-    default: ""
+  repository:
+    description: 'The repository name in full formar (owner/repo)'
+    required: true
+  type:
+    description: 'Wanted release type (latest, stable, draft, nodraft)'
+    required: true
 
 outputs:
-  bar:
-    description: bar
-    value: ${{ steps.main.outputs.bar }}
+  release:
+    description: 'Release tag'
+  release_id:
+    description: 'Release Github ID'
+  browser_download_url:
+    description: 'Release first asset download URL'
 
 runs:
   using: composite
